@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_sensor_tracking_app/app/core/constants/app_constants.dart';
+import 'package:todo_sensor_tracking_app/app/core/constants/app_text_style.dart';
+import 'package:todo_sensor_tracking_app/app/routes/app_pages.dart';
 
+import '../../core/constants/app_colors.dart';
 import 'initial_screen_controller.dart';
 
 class InitialScreenView extends GetView<InitialScreenController> {
@@ -9,14 +13,55 @@ class InitialScreenView extends GetView<InitialScreenController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('InitialScreenView'),
-        centerTitle: true,
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: mainPadding(20, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                appTaskButtonDesign(
+                  "A To Do List",
+                  AppColors.primaryColor,
+                  AppColors.black,
+                  () {
+                    Get.toNamed(Routes.TODO_LIST);
+                  },
+                ),
+                gapH16,
+                appTaskButtonDesign(
+                  "Sensor Tracking",
+                  AppColors.deepBlue,
+                  AppColors.white,
+                  () {
+                    Get.toNamed(Routes.SENSOR_TRACKING_GRAPH);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      body: const Center(
-        child: Text(
-          'InitialScreenView is working',
-          style: TextStyle(fontSize: 20),
+    );
+  }
+
+  appTaskButtonDesign(
+      String title, Color? color, Color textColor, Function()? onTap) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: borderCircular(16),
+      child: Ink(
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: borderCircular(16),
+        ),
+        padding: mainPadding(16, 24),
+        child: Center(
+          child: Text(
+            title,
+            style: text18Style(isWeight400: true, color: textColor),
+          ),
         ),
       ),
     );

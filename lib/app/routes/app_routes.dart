@@ -4,10 +4,19 @@ part of 'app_pages.dart';
 abstract class Routes {
   Routes._();
   static const INITIAL_SCREEN = _Paths.INITIAL_SCREEN;
+  static const TODO_LIST = _Paths.TODO_LIST;
+  static const TODO_ADD = _Paths.TODO_ADD;
+  static const SENSOR_TRACKING_GRAPH =
+       _Paths.SENSOR_TRACKING_GRAPH;
+  static const SENSOR_TRACKING = _Paths.SENSOR_TRACKING;
 }
 
 abstract class _Paths {
   _Paths._();
 
   static const INITIAL_SCREEN = '/initial-screen';
+  static const TODO_LIST = '/todo-list';
+  static const TODO_ADD = '/todo-add';
+  static const SENSOR_TRACKING_GRAPH = '/sensor-tracking-graph';
+  static const SENSOR_TRACKING = '/sensor-tracking';
 }
