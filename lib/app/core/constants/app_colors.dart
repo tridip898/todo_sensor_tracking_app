@@ -30,6 +30,7 @@ class AppColors {
   static const black = Color(0xff000000);
   static const red = Color(0xffFF0000);
   static const redLight = Color(0xffc26565);
+  static const grey = Color(0xff9D99A7);
   static const lime = Color(0xff00FF00);
   static const gymColor = Color(0xffF8A869);
   static const salonColor = Color(0xff98C93E);
@@ -46,4 +47,5 @@ class AppColors {
   static const borderColor = Color(0xFFCFCFCF);
   static const inputColor = Color(0x8052596E);
   static const deepBlue = Color(0x803F69FF);
+  static const disableColor = Color(0xFFEEEEEE);
 }
