@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../constants/app_constants.dart';
+import 'package:lottie/lottie.dart';
+
+import '../constants/assets_constants.dart';
 
 class AppWidget {
   loaderDesign() {
@@ -22,11 +24,10 @@ class AppWidget {
     );
   }
 
-  Future<DateTime?> datePickerMain(
-      {bool canPickFutureDate = true,
-        bool canPickFirstDate = false,
-        required DateTime initialDate,
-        DateTime? firstDate}) async {
+  Future<DateTime?> datePickerMain({bool canPickFutureDate = true,
+    bool canPickFirstDate = false,
+    required DateTime initialDate,
+    DateTime? firstDate}) async {
     DateTime? pickedDate = await showDatePicker(
       context: Get.context!,
       initialDate: canPickFirstDate
@@ -73,6 +74,15 @@ class AppWidget {
       return formattedDate;*/
     }
     return null;
+  }
+
+  noDataFoundMsg() {
+    return Center(
+      child: Lottie.asset(
+        noDataFoundLottie,
+        width: Get.width * .8,
+      ),
+    );
   }
 
 }

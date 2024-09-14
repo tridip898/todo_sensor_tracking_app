@@ -8,8 +8,9 @@ import '../../core/constants/app_text_style.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final Function()? backTap;
 
-  const MyAppBar({required this.title, super.key});
+  const MyAppBar({required this.title, this.backTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: text18Style(isPrimaryColor: true),
       ),
       leading: InkWell(
-        onTap: () {
+        onTap: backTap ?? () {
           Get.back();
         },
         borderRadius: BorderRadius.circular(30),

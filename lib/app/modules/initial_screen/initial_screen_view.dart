@@ -13,6 +13,7 @@ class InitialScreenView extends GetView<InitialScreenController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -25,7 +26,7 @@ class InitialScreenView extends GetView<InitialScreenController> {
                   AppColors.primaryColor,
                   AppColors.black,
                   () {
-                    Get.toNamed(Routes.TODO_LIST);
+                    Get.toNamed(Routes.TODO_SPLASH);
                   },
                 ),
                 gapH16,

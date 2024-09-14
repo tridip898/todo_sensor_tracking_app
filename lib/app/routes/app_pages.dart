@@ -10,6 +10,8 @@ import '../modules/todo/todo_add/bindings/todo_add_binding.dart';
 import '../modules/todo/todo_add/views/todo_add_view.dart';
 import '../modules/todo/todo_list/todo_list_binding.dart';
 import '../modules/todo/todo_list/todo_list_view.dart';
+import '../modules/todo/todo_splash/todo_splash_binding.dart';
+import '../modules/todo/todo_splash/todo_splash_view.dart';
 
 part 'app_routes.dart';
 
@@ -43,6 +45,18 @@ class AppPages {
       name: _Paths.SENSOR_TRACKING,
       page: () => const SensorTrackingView(),
       binding: SensorTrackingBinding(),
+    ),
+    GetPage(
+      name: _Paths.TODO_SPLASH,
+      page: () => const TodoSplashView(),
+      binding: TodoSplashBinding(),
+      children: [
+        GetPage(
+          name: _Paths.TODO_SPLASH,
+          page: () => const TodoSplashView(),
+          binding: TodoSplashBinding(),
+        ),
+      ],
     ),
   ];
 }

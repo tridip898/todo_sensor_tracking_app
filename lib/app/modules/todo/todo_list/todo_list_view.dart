@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_sensor_tracking_app/app/core/data/todo_model.dart';
 import 'package:todo_sensor_tracking_app/app/core/widgets/app_edit_text.dart';
+import 'package:todo_sensor_tracking_app/app/core/widgets/app_widgets.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_constants.dart';
@@ -17,11 +18,15 @@ class TodoListView extends GetView<TodoListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(
+      appBar: MyAppBar(
         title: 'To-Do List',
+        backTap: () {
+          Get.back();
+          Get.back();
+        },
       ),
       backgroundColor: AppColors.white,
-      floatingActionButton: addTaskButton(context),
+      floatingActionButton: floatingActionButton(context),
       body: Padding(
         padding: mainPaddings(20, 0),
         child: Column(
@@ -37,6 +42,9 @@ class TodoListView extends GetView<TodoListController> {
             gapH12,
             Expanded(
               child: Obx(() {
+                if (controller.todos.isEmpty) {
+                  return AppWidget().noDataFoundMsg();
+                }
                 return ListView.separated(
                   itemCount: controller.todos.length,
                   physics: const BouncingScrollPhysics(),
@@ -56,8 +64,9 @@ class TodoListView extends GetView<TodoListController> {
     );
   }
 
-  addTaskButton(BuildContext context) {
+  floatingActionButton(BuildContext context) {
     return FloatingActionButton.extended(
+      backgroundColor: AppColors.primaryColor,
       onPressed: () {
         showAddTodoDialog(context);
       },
@@ -112,10 +121,12 @@ class TodoListView extends GetView<TodoListController> {
               },
             ),
             ElevatedButton(
-              child: const Text('Add Task'),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor),
               onPressed: () {
                 controller.addTaskClick();
               },
+              child: const Text('Add Task'),
             ),
           ],
         );
@@ -128,90 +139,88 @@ class TodoListView extends GetView<TodoListController> {
       decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: borderCircular(16),
-          border: Border.all(color: AppColors.borderColor, width: 1),
+          border: Border.all(
+              color: todo.isCompleted == 1
+                  ? AppColors.primaryColor
+                  : AppColors.borderColor,
+              width: 1),
           boxShadow: [
             BoxShadow(
               color: AppColors.grey.withOpacity(.2),
-              blurRadius: 8,
+              blurRadius: 16,
               spreadRadius: -3,
             )
           ]),
       padding: mainPaddings(0, 10, leftPadding: 8, rightPadding: 16),
-      child: Row(
-        children: [
-          Checkbox(
-            value: todo.isCompleted == 1,
-            onChanged: (val) {
-              controller.updateTodoStatus(todo, val ?? false);
-            },
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Checkbox(
+              value: todo.isCompleted == 1,
+              activeColor: AppColors.primaryColor,
+              onChanged: (val) {
+                controller.updateTodoStatus(todo, val ?? false);
+              },
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    todo.title,
+                    style: text16Style(),
+                  ),
+                  gapH3,
+                  Text(
+                    todo.subtitle,
+                    style: text14Style(),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  gapH3,
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_month_rounded,
+                        size: 18.w,
+                      ),
+                      gapW3,
+                      Expanded(
+                        child: Text(todo.date),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            VerticalDivider(
+              color: AppColors.grey,
+              width: 18.w,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  todo.title,
-                  style: text16Style(),
+                actionButton(
+                  Icons.edit,
+                  AppColors.green,
+                  () {
+                    showEditTodoDialog(context, todo);
+                  },
                 ),
-                gapH3,
-                Text(
-                  todo.subtitle,
-                  style: text14Style(),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                gapH3,
-                Row(
-                  children: [
-                    Icon(
-                      Icons.calendar_month_rounded,
-                      size: 18.w,
-                    ),
-                    gapW3,
-                    Expanded(
-                      child: Text(todo.date),
-                    ),
-                  ],
+                gapH6,
+                actionButton(
+                  Icons.delete_outline_rounded,
+                  AppColors.red,
+                  () {
+                    controller.deleteTodoById(todo.id ?? -1);
+                  },
                 ),
               ],
-            ),
-          ),
-          gapW6,
-          Column(
-            children: [
-              actionButton(
-                Icons.edit,
-                AppColors.green,
-                () {
-                  showEditTodoDialog(context, todo);
-                },
-              ),
-              gapH6,
-              actionButton(
-                Icons.delete_outline_rounded,
-                AppColors.red,
-                () {
-                  controller.deleteTodoById(todo.id ?? -1);
-                },
-              ),
-            ],
-          )
-        ],
+            )
+          ],
+        ),
       ),
-    );
-    return ListTile(
-      tileColor: AppColors.white,
-      title: Text(todo.title),
-      subtitle: Text('${todo.subtitle}\n${todo.date}'),
-      trailing: Checkbox(
-        value: todo.isCompleted == 1,
-        onChanged: (val) {
-          controller.updateTodoStatus(todo, val!);
-        },
-      ),
-      onLongPress: () {
-        controller.deleteTodoById(todo.id!);
-      },
     );
   }
 
@@ -282,10 +291,12 @@ class TodoListView extends GetView<TodoListController> {
               },
             ),
             ElevatedButton(
-              child: const Text('Update Task'),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor),
               onPressed: () {
                 controller.updateTaskClick(todo);
               },
+              child: const Text('Update Task'),
             ),
           ],
         );
