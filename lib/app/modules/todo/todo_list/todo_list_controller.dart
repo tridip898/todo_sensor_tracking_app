@@ -10,9 +10,14 @@ import '../../../core/helper/db_helper.dart';
 class TodoListController extends GetxController {
   final titleController = TextEditingController(),
       subtitleController = TextEditingController(),
-      dateController = TextEditingController();
+      dateController = TextEditingController(),
+      searchController = TextEditingController();
+  final titleFocusNode = FocusNode(),
+      subtitleFocusNode = FocusNode(),
+      dateFocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   final todos = <Todo>[].obs;
+  var todoListDemo = <Todo>[];
   final selectedDate = DateTime.now().obs;
 
   // var alertedTasks = <int>{}.obs;
@@ -23,15 +28,22 @@ class TodoListController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    searchController.addListener(() {
+      return searchTask(searchController.text);
+    });
     loadTodos();
   }
 
   Future<void> loadTodos() async {
     var result = await dbHelper.queryAll();
     todos.clear();
+    todoListDemo.clear();
+    List<Todo> demo = [];
     for (var element in result) {
-      todos.add(Todo.fromMap(element));
+      demo.add(Todo.fromMap(element));
     }
+    todos.value = demo;
+    todoListDemo.addAll(todos);
     updateCounts();
     checkForDueToday();
   }
@@ -155,5 +167,19 @@ class TodoListController extends GetxController {
       );
       Get.back();
     }
+  }
+
+  void searchTask(String searchKeyword) {
+    List<Todo> results = [];
+    if (searchKeyword.isEmpty) {
+      results = todoListDemo;
+    } else {
+      results = todoListDemo.where((dictionary) {
+        return (dictionary.title ?? "")
+            .toLowerCase()
+            .contains(searchKeyword.toLowerCase());
+      }).toList();
+    }
+    todos.value = results;
   }
 }

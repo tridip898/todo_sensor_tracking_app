@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature
+        android:name="android.hardware.sensor.gyroscope"
+        android:required="false" />
     <application
-        android:label="todo_sensor_tracking_app"
+        android:label="ToDo Sensor Tracking"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

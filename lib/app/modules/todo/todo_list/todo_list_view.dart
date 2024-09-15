@@ -33,6 +33,15 @@ class TodoListView extends GetView<TodoListController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             gapH8,
+            AppEditText(
+              title: "",
+              controller: controller.searchController,
+              hintText: "Search task....",
+              suffixIcon: Icons.search_rounded,
+              isRequired: false,
+              needTopSpace: false,
+            ),
+            gapH16,
             Obx(
               () => Text(
                 '${controller.completedCount.value} Completed, ${controller.incompleteCount.value} Incomplete',
@@ -85,50 +94,75 @@ class TodoListView extends GetView<TodoListController> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           shape: RoundedRectangleBorder(borderRadius: borderCircular(16)),
-          actionsPadding: mainPaddings(20, 8),
-          title: const Text('Add New Task'),
-          content: SingleChildScrollView(
-            child: Form(
-              key: controller.formKey,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              borderRadius: borderCircular(16),
+            ),
+            padding: mainPaddings(16, 16),
+            child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppEditText(
-                    title: "Enter Title",
-                    controller: controller.titleController,
+                  Text(
+                    "Add New Task",
+                    style: text18Style(),
                   ),
-                  AppEditText(
-                    title: "Enter Subtitle",
-                    controller: controller.subtitleController,
+                  gapH8,
+                  Form(
+                    key: controller.formKey,
+                    child: Column(
+                      children: [
+                        AppEditText(
+                          title: "Enter Title",
+                          controller: controller.titleController,
+                          focusNode: controller.titleFocusNode,
+                          nextFocus: controller.subtitleFocusNode,
+                        ),
+                        AppEditText(
+                          title: "Enter Subtitle",
+                          controller: controller.subtitleController,
+                          focusNode: controller.subtitleFocusNode,
+                          nextFocus: controller.dateFocusNode,
+                        ),
+                        AppEditText(
+                          title: "Select Date",
+                          controller: controller.dateController,
+                          isReadonly: true,
+                          suffixIcon: Icons.calendar_month_rounded,
+                          clickListener: controller.startDateClick,
+                          focusNode: controller.dateFocusNode,
+                        ),
+                      ],
+                    ),
                   ),
-                  AppEditText(
-                    title: "Select Date",
-                    controller: controller.dateController,
-                    isReadonly: true,
-                    suffixIcon: Icons.calendar_month_rounded,
-                    clickListener: controller.startDateClick,
-                  ),
+                  gapH12,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        child: const Text('Cancel'),
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor),
+                        onPressed: () {
+                          controller.addTaskClick();
+                        },
+                        child: const Text('Add Task'),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
           ),
-          actions: [
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Get.back();
-              },
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor),
-              onPressed: () {
-                controller.addTaskClick();
-              },
-              child: const Text('Add Task'),
-            ),
-          ],
         );
       },
     );
@@ -255,50 +289,75 @@ class TodoListView extends GetView<TodoListController> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit Task'),
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           shape: RoundedRectangleBorder(borderRadius: borderCircular(16)),
-          actionsPadding: mainPaddings(20, 8),
-          content: SingleChildScrollView(
-            child: Form(
-              key: controller.formKey,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              borderRadius: borderCircular(16),
+            ),
+            padding: mainPaddings(16, 16),
+            child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppEditText(
-                    title: "Enter Title",
-                    controller: controller.titleController,
+                  Text(
+                    "Update Task",
+                    style: text18Style(),
                   ),
-                  AppEditText(
-                    title: "Enter Subtitle",
-                    controller: controller.subtitleController,
+                  gapH8,
+                  Form(
+                    key: controller.formKey,
+                    child: Column(
+                      children: [
+                        AppEditText(
+                          title: "Enter Title",
+                          controller: controller.titleController,
+                          focusNode: controller.titleFocusNode,
+                          nextFocus: controller.subtitleFocusNode,
+                        ),
+                        AppEditText(
+                          title: "Enter Subtitle",
+                          controller: controller.subtitleController,
+                          focusNode: controller.subtitleFocusNode,
+                          nextFocus: controller.dateFocusNode,
+                        ),
+                        AppEditText(
+                          title: "Select Date",
+                          controller: controller.dateController,
+                          isReadonly: true,
+                          suffixIcon: Icons.calendar_month_rounded,
+                          clickListener: controller.startDateClick,
+                          focusNode: controller.dateFocusNode,
+                        ),
+                      ],
+                    ),
                   ),
-                  AppEditText(
-                    title: "Select Date",
-                    controller: controller.dateController,
-                    isReadonly: true,
-                    suffixIcon: Icons.calendar_month_rounded,
-                    clickListener: controller.startDateClick,
-                  ),
+                  gapH12,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        child: const Text('Cancel'),
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor),
+                        onPressed: () {
+                          controller.updateTaskClick(todo);
+                        },
+                        child: const Text('Update Task'),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
           ),
-          actions: [
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor),
-              onPressed: () {
-                controller.updateTaskClick(todo);
-              },
-              child: const Text('Update Task'),
-            ),
-          ],
         );
       },
     );
