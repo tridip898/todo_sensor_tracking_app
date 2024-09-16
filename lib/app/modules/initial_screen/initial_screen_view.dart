@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_sensor_tracking_app/app/core/constants/app_constants.dart';
-import 'package:todo_sensor_tracking_app/app/core/constants/app_text_style.dart';
-import 'package:todo_sensor_tracking_app/app/routes/app_pages.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_constants.dart';
+import '../../core/constants/app_text_style.dart';
+import '../../routes/app_pages.dart';
 import 'initial_screen_controller.dart';
 
 class InitialScreenView extends GetView<InitialScreenController> {

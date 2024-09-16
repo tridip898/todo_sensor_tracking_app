@@ -46,6 +46,7 @@ class AppColors {
   static const borderGrayColor = Color(0xFFBCBCBC);
   static const borderColor = Color(0xFFCFCFCF);
   static const inputColor = Color(0x8052596E);
-  static const deepBlue = Color(0x803F69FF);
+  static const deepBlue = Color(0xff3F69FF);
+
   static const disableColor = Color(0xFFEEEEEE);
 }

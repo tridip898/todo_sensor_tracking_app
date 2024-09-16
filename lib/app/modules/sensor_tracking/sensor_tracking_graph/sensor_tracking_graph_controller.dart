@@ -1,5 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/constants/app_text_style.dart';
 
 class SensorTrackingGraphController extends GetxController {
   final gyroscopeData = <double>[0, 0, 0].obs;
@@ -39,9 +44,7 @@ class SensorTrackingGraphController extends GetxController {
     });
   }
 
-  // Method to update graph data
   void updateGraph(RxList<double> axisData, double newValue) {
-    // Keep the list size within maxLength
     if (axisData.length >= maxLength) {
       axisData.removeAt(0);
     }
@@ -49,7 +52,6 @@ class SensorTrackingGraphController extends GetxController {
     axisData.refresh();
   }
 
-  // Check if there's high movement in any two axes simultaneously
   void checkForAlert() {
     bool highMovementGyro =
         (gyroscopeData.where((val) => val.abs() > alertThreshold).length >= 2);
@@ -58,6 +60,35 @@ class SensorTrackingGraphController extends GetxController {
             2);
 
     alertTriggered.value = highMovementGyro || highMovementAccel;
+    if (alertTriggered.value) {
+      showAlert();
+    }
+  }
+
+  void showAlert() {
+    Get.dialog(
+      AlertDialog(
+        title: Text(
+          "Alert",
+          style: text20Style(color: AppColors.red),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: borderCircular(16),
+        ),
+        content: Text(
+          "High Movement Detected!",
+          style: text16Style(),
+        ),
+        actions: [
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Get.back(); // Close the dialog
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 

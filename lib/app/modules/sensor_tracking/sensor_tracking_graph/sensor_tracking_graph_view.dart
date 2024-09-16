@@ -115,11 +115,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:todo_sensor_tracking_app/app/core/constants/app_colors.dart';
-import 'package:todo_sensor_tracking_app/app/core/constants/app_constants.dart';
-import 'package:todo_sensor_tracking_app/app/core/constants/app_text_style.dart';
-import 'package:todo_sensor_tracking_app/app/core/widgets/my_app_bar.dart';
-import 'package:todo_sensor_tracking_app/app/modules/sensor_tracking/sensor_tracking_graph/sensor_tracking_graph_controller.dart';
+
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/widgets/my_app_bar.dart';
+import 'sensor_tracking_graph_controller.dart';
 
 class SensorTrackingGraphView extends GetView<SensorTrackingGraphController> {
   const SensorTrackingGraphView({super.key});
@@ -131,7 +131,6 @@ class SensorTrackingGraphView extends GetView<SensorTrackingGraphController> {
       backgroundColor: AppColors.white,
       body: Column(
         children: [
-          // Gyroscope Data Graph
           Obx(() {
             return buildGraph(
               'Gyroscope Data',
@@ -141,7 +140,6 @@ class SensorTrackingGraphView extends GetView<SensorTrackingGraphController> {
             );
           }),
 
-          // Accelerometer Data Graph
           Obx(() {
             return buildGraph(
               'Accelerometer Data',
@@ -149,23 +147,6 @@ class SensorTrackingGraphView extends GetView<SensorTrackingGraphController> {
               controller.accelerometerY.value,
               controller.accelerometerZ.value,
             );
-          }),
-
-          // Alert box
-          Obx(() {
-            if (controller.alertTriggered.value) {
-              return Container(
-                margin: const EdgeInsets.all(10),
-                padding: mainPaddings(20, 10),
-                color: Colors.red,
-                child: Text(
-                  "ALERT: High Movement Detected!",
-                  style: text18Style(isWhiteColor: true, isWeight600: true),
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
           }),
         ],
       ),

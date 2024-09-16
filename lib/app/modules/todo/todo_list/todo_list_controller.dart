@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +26,7 @@ class TodoListController extends GetxController {
   final completedCount = 0.obs, incompleteCount = 0.obs;
 
   DBHelper dbHelper = DBHelper();
+  Timer? checkDueTimer;
 
   @override
   void onInit() {
@@ -32,6 +35,15 @@ class TodoListController extends GetxController {
       return searchTask(searchController.text);
     });
     loadTodos();
+    checkDueTimer = Timer.periodic(const Duration(hours: 6), (timer) {
+      checkForDueToday();
+    });
+  }
+
+  @override
+  void onClose() {
+    checkDueTimer?.cancel();
+    super.onClose();
   }
 
   Future<void> loadTodos() async {
@@ -45,7 +57,6 @@ class TodoListController extends GetxController {
     todos.value = demo;
     todoListDemo.addAll(todos);
     updateCounts();
-    checkForDueToday();
   }
 
   Future<void> addTodo(Todo todo) async {

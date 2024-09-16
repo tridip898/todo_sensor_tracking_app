@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:todo_sensor_tracking_app/app/core/constants/app_colors.dart';
-import 'package:todo_sensor_tracking_app/app/core/constants/app_text_style.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/constants/app_colors.dart';
 import 'todo_splash_controller.dart';
 
 class TodoSplashView extends GetView<TodoSplashController> {
@@ -16,21 +17,24 @@ class TodoSplashView extends GetView<TodoSplashController> {
       body: SafeArea(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 controller.icon,
-                fit: BoxFit.fill,
-              ),
+                width: 130.w,
+                height: 130.h,
+              ).animate().scaleXY(
+                  duration: const Duration(milliseconds: 2500),
+                  curve: Curves.easeInOut),
               Text(
-                "Daily To-Do App",
-                style: text20Style(fontSize: 40, fontWeight: FontWeight.w900),
-              )
+                'Daily To-Do App',
+                style: GoogleFonts.sigmar(
+                    fontSize: 22, fontWeight: FontWeight.w400),
+              ).animate().scaleXY(
+                  duration: const Duration(milliseconds: 2500),
+                  curve: Curves.easeInOut),
             ],
-          ).animate().scaleXY(
-                begin: 0,
-                end: .6,
-                duration: const Duration(milliseconds: 3000),
-              ),
+          ),
         ),
       ),
     );
