@@ -11,11 +11,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.white,
-    // Set the status bar color to white
     statusBarIconBrightness: Brightness.dark,
-    // Set the status bar icons to black
-    statusBarBrightness:
-        Brightness.light, // Set the status bar to light mode for iOS
+    statusBarBrightness: Brightness.light,
   ));
   runApp(
     ScreenUtilInit(

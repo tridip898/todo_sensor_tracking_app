@@ -17,57 +17,64 @@ class TodoListView extends GetView<TodoListController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(
-        title: 'To-Do List',
-        backTap: () {
-          Get.back();
-          Get.back();
-        },
-      ),
-      backgroundColor: AppColors.white,
-      floatingActionButton: floatingActionButton(context),
-      body: Padding(
-        padding: mainPaddings(20, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            gapH8,
-            AppEditText(
-              title: "",
-              controller: controller.searchController,
-              hintText: "Search task....",
-              suffixIcon: Icons.search_rounded,
-              isRequired: false,
-              needTopSpace: false,
-            ),
-            gapH16,
-            Obx(
-              () => Text(
-                '${controller.completedCount.value} Completed, ${controller.incompleteCount.value} Incomplete',
-                style: text14Style(),
+    return WillPopScope(
+      onWillPop: () async {
+        Get.back();
+        Get.back();
+        return false;
+      },
+      child: Scaffold(
+        appBar: MyAppBar(
+          title: 'To-Do List',
+          backTap: () {
+            Get.back();
+            Get.back();
+          },
+        ),
+        backgroundColor: AppColors.white,
+        floatingActionButton: floatingActionButton(context),
+        body: Padding(
+          padding: mainPaddings(20, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              gapH8,
+              AppEditText(
+                title: "",
+                controller: controller.searchController,
+                hintText: "Search task....",
+                suffixIcon: Icons.search_rounded,
+                isRequired: false,
+                needTopSpace: false,
               ),
-            ),
-            gapH12,
-            Expanded(
-              child: Obx(() {
-                if (controller.todos.isEmpty) {
-                  return AppWidget().noDataFoundMsg();
-                }
-                return ListView.separated(
-                  itemCount: controller.todos.length,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final todo = controller.todos[index];
-                    return toDoCard(context, todo);
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return gapH12;
-                  },
-                );
-              }),
-            ),
-          ],
+              gapH16,
+              Obx(
+                () => Text(
+                  '${controller.completedCount.value} Completed, ${controller.incompleteCount.value} Incomplete',
+                  style: text14Style(),
+                ),
+              ),
+              gapH12,
+              Expanded(
+                child: Obx(() {
+                  if (controller.todos.isEmpty) {
+                    return AppWidget().noDataFoundMsg();
+                  }
+                  return ListView.separated(
+                    itemCount: controller.todos.length,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final todo = controller.todos[index];
+                      return toDoCard(context, todo);
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return gapH12;
+                    },
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );
