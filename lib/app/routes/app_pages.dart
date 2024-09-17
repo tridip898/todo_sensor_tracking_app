@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/initial_screen/initial_screen_binding.dart';
 import '../modules/initial_screen/initial_screen_view.dart';
-import '../modules/sensor_tracking/sensor_tracking/bindings/sensor_tracking_binding.dart';
-import '../modules/sensor_tracking/sensor_tracking/views/sensor_tracking_view.dart';
+import '../modules/sensor_tracking/sensor_tracking/sensor_tracking_binding.dart';
+import '../modules/sensor_tracking/sensor_tracking/sensor_tracking_view.dart';
 import '../modules/sensor_tracking/sensor_tracking_graph/sensor_tracking_graph_binding.dart';
 import '../modules/sensor_tracking/sensor_tracking_graph/sensor_tracking_graph_view.dart';
 import '../modules/todo/todo_list/todo_list_binding.dart';

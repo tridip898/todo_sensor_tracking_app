@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_sensor_tracking_app/app/core/helper/app_helper.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_constants.dart';
@@ -25,8 +26,13 @@ class InitialScreenView extends GetView<InitialScreenController> {
                   "A To Do List",
                   AppColors.primaryColor,
                   AppColors.black,
-                  () {
-                    Get.toNamed(Routes.TODO_SPLASH);
+                  () async {
+                    if (await AppHelper().getBoolPref("already_login") ==
+                        true) {
+                      Get.toNamed(Routes.TODO_LIST);
+                    } else {
+                      Get.toNamed(Routes.TODO_SPLASH);
+                    }
                   },
                 ),
                 gapH16,

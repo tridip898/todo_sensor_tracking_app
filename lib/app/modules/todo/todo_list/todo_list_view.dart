@@ -192,7 +192,7 @@ class TodoListView extends GetView<TodoListController> {
               spreadRadius: -3,
             )
           ]),
-      padding: mainPaddings(0, 10, leftPadding: 8, rightPadding: 16),
+      padding: mainPaddings(0, 8, leftPadding: 8, rightPadding: 16),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
